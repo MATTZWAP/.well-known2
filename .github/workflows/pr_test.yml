@@ -10,11 +10,11 @@ jobs:
       - name: Say Hello
         run: echo "🎉 Hello, GitHub Actions is working!"
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'graalvm'
-          java-version: '17'
+      # - name: Set up Java
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     distribution: 'graalvm'
+      #     java-version: '17'
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
