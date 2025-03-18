@@ -9,3 +9,20 @@ jobs:
     steps:
       - name: Say Hello
         run: echo "🎉 Hello, GitHub Actions is working!"
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: arm64-v8a
+          profile: pixel_7_pro
+          emulator-options: -no-snapshot-save -noaudio -no-boot-anim
+          disable-animations: true
+          script: echo "done"
