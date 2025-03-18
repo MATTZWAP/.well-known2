@@ -5,17 +5,30 @@ on:
 
 jobs:
   say-hello:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Say Hello
         run: echo "🎉 Hello, GitHub Actions is working!"
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
 
-      - name: run tests
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.6'
+          channel: 'stable'
+
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      
+
+      # Remove KVM enabling step because it's not supported in GitHub Actions.
+
+      - name: Run Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
@@ -24,4 +37,8 @@ jobs:
           profile: pixel_7_pro
           emulator-options: -no-snapshot-save -noaudio -no-boot-anim
           disable-animations: true
-          script: echo "🎉success"
+          script: |
+            # Wait for the emulator to fully boot up
+            sleep 60
+            # Run your tests here
+            echo "🎉success"
