@@ -5,7 +5,7 @@ on:
 
 jobs:
   say-hello:
-    runs-on: macos-latest
+    runs-on: macos-arm64
     steps:
       - name: Say Hello
         run: echo "🎉 Hello, GitHub Actions is working!"
